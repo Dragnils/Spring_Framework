@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring Framework Guru</title>
+</head>
+<body>
+<h1>Book List</h1>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Publisher</th>
+    </tr>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.id}">123</td>
+        <td th:text="${book.title}">Spring in Action</td>
+        <td th:text="${book.publisher.name}">Wrox</td>
+    </tr>
+</table>
+<!-- Шаблонизатор Thymeleaf для отображения данных в браузере, проверять через localhost:8080/books
+двигая вверх по шаблону Thymeleaf, ключевые части находятся в строке 2, чтобы импортировать пространство имен XML,
+и в этом случае мы используем строку 16, мы используем итератор Thymeleaf для th:  мы берем каждое свойство books из модели,
+которая был визуализирован из Spring MVC, который дает нам переменную книги, и она будет повторяться для каждой книги, она будет
+повторяться и создавать этот блок для нас для строк нашей таблицы.
+-->
+</body>
+</html>

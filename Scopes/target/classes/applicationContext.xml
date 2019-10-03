@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--  Импортируем файл musicPlayer.properties со значениями внутри него и передаем эти значения в bean "musicPlayer"  -->
+    <context:property-placeholder location="classpath:musicPlayer.properties"/>
+
+    <bean id="musicBean"
+          class="ru.anuar1.springcourse.ClassicalMusic"
+           init-method="doMyInit"
+           destroy-method="doMyDestroy"
+           factory-method="getClassicalMusic">
+    </bean>
+
+  <!--  Использовали dependecy Injection(DI) внедрение зависимостей через setter в классе MusicPlayer. Чтобы не создавать объеткы класса MusicPlayer мы вызваем
+  данный объект с помощью bean и в property указываем id musicBean для вызова объекта классов ClassicMusic или RockMusic. Смотреть класс TestSpring-->
+    <bean id="musicPlayer"
+          class = "ru.anuar1.springcourse.MusicPlayer"
+            scope="prototype"> <!--по умолчанию стоит singleton, который ссылается на один объект-->
+        <property name="music" ref="musicBean"/> <!-- внедрили ссылку на другой bean (IoC), работаем через setter name="music" -->
+        <!-- если работаем через setter, то необходимо создать конструктор без параметров -->
+
+        <property name="name" value="Some name"/>
+        <property name="volume" value="70"/>
+    </bean>
+
+
+
+ </beans>

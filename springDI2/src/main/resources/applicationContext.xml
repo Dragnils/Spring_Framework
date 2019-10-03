@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--  Импортируем файл musicPlayer.properties со значениями внутри него и передаем эти значения в bean "musicPlayer"  -->
+    <context:property-placeholder location="classpath:musicPlayer.properties"/>
+
+
+    <!-- 1 -->
+    <bean id="musicBean"
+          class="ru.anuarbek.sprincourse.ClassicalMusic">
+    </bean>
+
+    <bean id="musicBean2"
+          class="ru.anuarbek.sprincourse.RockMusic">
+    </bean>
+
+    <bean id="musicBean3"
+          class="ru.anuarbek.sprincourse.RapMusic">
+    </bean>
+
+    <!--Использовали dependecy Injection(DI) внедрение зависимостей через setter в классе MusicPlayer. Чтобы не создавать объеткы класса MusicPlayer мы вызваем
+    данный объект с помощью bean и в property указываем id musicBean для вызова объекта классов ClassicMusic или RockMusic. Смотреть класс TestSpring-->
+    <!--<bean id="musicPlayer"
+          class = "ru.anuarbek.sprincourse.MusicPlayer"> &lt;!&ndash; если работаем через setter, то необходимо создать конструктор без параметров &ndash;&gt;
+        <property name="music" ref="musicBean"/> &lt;!&ndash; внедрили ссылку на другой bean (IoC), работаем через setter name="music" &ndash;&gt;
+
+        <property name="name" value="${musicPlayer.name}"/>
+        <property name="volume" value="${musicPlayer.volume}"/>
+    </bean>-->
+
+    <bean id="musicPlayer"
+          class = "ru.anuarbek.sprincourse.MusicPlayer">
+        <property name="musicList"><!--работаем через setter т.е. в поле name указываем имя setter'a setMusicList-->
+        <list>
+            <ref bean="musicBean"/> <!-- внедрили ссылку на другой bean-->
+            <ref bean="musicBean2"/>
+            <ref bean="musicBean3"/>
+        </list>
+        </property>
+
+        <property name="name" value="${musicPlayer.name}"/> <!--работаем через setter т.е. в поле name указываем имя setter'a- setName. В значение value вносим значения из musicPlayer.properties. для подключения смотри строку №11-->
+        <property name="volume" value="${musicPlayer.volume}"/><!--работаем через setter т.е. в поле name указываем имя setter'a- setVolume-->
+    </bean>
+
+</beans>
